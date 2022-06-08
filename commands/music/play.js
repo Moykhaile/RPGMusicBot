@@ -1,4 +1,5 @@
 const { QueryType } = require('discord-player');
+const maxVol = client.config.opt.maxVol;
 
 module.exports = {
     name: 'play',
@@ -30,6 +31,8 @@ module.exports = {
         await message.channel.send(`Carregando sua ${res.playlist ? 'playlist' : 'faixa'}... 🎧`);
 
         res.playlist ? queue.addTracks(res.tracks) : queue.addTrack(res.tracks[0]);
+
+        if (queue.volume > maxVol) queue.setVolume(maxVol);
 
         if (!queue.playing) await queue.play();
     },
